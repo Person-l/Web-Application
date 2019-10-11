@@ -1,40 +1,75 @@
 package com.framework.core.model;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 /**
  * Model class for User
  */
 @Entity
-@Table(name = "AppUser")
+@Table(name = "AppUser", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "username", name = "appuser_username_unique"),
+		@UniqueConstraint(columnNames = "email", name = "appuser_email_unique") })
 public class AppUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	@GeneratedValue(generator = "system-uuid")
-	@Column(name = "userId", unique = true, nullable = false)
-	private String userId;
-	@Column(name = "username", unique = true, nullable = false, length = 10)
+	@Column(name = "userId", length = 32)
+	private String Id;
+
+	@Type(type = "yes_no")
+	@Column(name = "active", nullable = false, length = 1)
+	private Boolean active = true;
+
+	@Column(name = "created", nullable = false)
+	private Date created = new Date();
+
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "createdBy", foreignKey = @ForeignKey(name = "FK_AppUser_createdBy"))
+	private AppUser createdBy;
+
+	@Column(name = "updated", nullable = false)
+	private Date updated = new Date();
+
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "updatedBy", foreignKey = @ForeignKey(name = "FK_AppUser_updatedBy"))
+	private AppUser updatedBy;
+
+	@Column(name = "username", nullable = false, length = 60)
 	private String username;
-	@Column(name = "email", unique = true, nullable = false, length = 40)
+
+	@Column(name = "email", nullable = false, length = 60)
 	private String email;
-	@Column(name = "password", unique = true, nullable = false, length = 10)
+
+	@Column(name = "password", nullable = false, length = 60)
 	private String password;
 
-	public String getUserId() {
-		return userId;
-	}
+	@OneToMany(mappedBy = "createdBy")
+	private Set<AppUser> createdByList = new HashSet<AppUser>();
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	@OneToMany(mappedBy = "updatedBy")
+	private Set<AppUser> updatedByList = new HashSet<AppUser>();
+
+	public AppUser() {
+
 	}
 
 	public String getUsername() {
@@ -61,9 +96,72 @@ public class AppUser implements Serializable {
 		this.password = password;
 	}
 
+	public AppUser getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(AppUser createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getId() {
+		return Id;
+	}
+
+	public void setId(String id) {
+		Id = id;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
+
+	public AppUser getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(AppUser updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Set<AppUser> getCreatedByList() {
+		return createdByList;
+	}
+
+	public void setCreatedByList(Set<AppUser> createdByList) {
+		this.createdByList = createdByList;
+	}
+
+	public Set<AppUser> getUpdatedByList() {
+		return updatedByList;
+	}
+
+	public void setUpdatedByList(Set<AppUser> updatedByList) {
+		this.updatedByList = updatedByList;
+	}
+
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", email=" + email + ", password=" + password
-				+ "]";
+		return "User [userId=" + Id + ", username=" + username + ", email=" + email + ", password=" + password + "]";
 	}
 }
