@@ -17,18 +17,18 @@ public class HibernateTest {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 
-		AppUser user1 = new AppUser();
-		user1.setUsername("100");
-		user1.setEmail("100");
-		user1.setPassword("100");
-		
-		AppUser user = new AppUser();
-		user.setUsername("Aziz");
-		user.setEmail("azizshaikh912@gmail.com");
-		user.setPassword("aziz@123");
-		user.setCreatedBy(user1);
-		user.setUpdatedBy(user1);
-		session.save(user);
+//		AppUser user1 = new AppUser();
+//		user1.setUsername("100");
+//		user1.setEmail("100");
+//		user1.setPassword("100");
+//		
+//		AppUser user = new AppUser();
+//		user.setUsername("Aziz");
+//		user.setEmail("azizshaikh912@gmail.com");
+//		user.setPassword("aziz@123");
+//		user.setCreatedBy(user1);
+//		user.setUpdatedBy(user1);
+//		session.save(user);
 
 		session.getTransaction().commit();
 		session.close();

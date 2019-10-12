@@ -21,6 +21,8 @@
 		<!-- Drop and re-create all database on startup -->
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 
+		<property name="hibernate.hbm2ddl.import_files">/initial_dataload.sql</property>
+
 
 
 	</session-factory>
