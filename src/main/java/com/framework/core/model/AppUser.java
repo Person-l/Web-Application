@@ -34,6 +34,14 @@ public class AppUser implements Serializable {
 	@GeneratedValue(generator = "system-uuid")
 	@Column(name = "userId", length = 32)
 	private String Id;
+	
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "client", foreignKey = @ForeignKey(name = "FK_AppUser_client"))
+	private Client client;
+	
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "organization", foreignKey = @ForeignKey(name = "FK_AppUser_organization"))
+	private Organization organization;
 
 	@Type(type = "yes_no")
 	@Column(name = "active", nullable = false, length = 1)
@@ -67,6 +75,12 @@ public class AppUser implements Serializable {
 
 	@OneToMany(mappedBy = "updatedBy")
 	private Set<AppUser> updatedByList = new HashSet<AppUser>();
+	
+	@OneToMany(mappedBy = "client")
+	private Set<Client> clientList = new HashSet<Client>();
+	
+	@OneToMany(mappedBy = "organization")
+	private Set<Organization> organizationList = new HashSet<Organization>();
 
 	public AppUser() {
 
@@ -158,6 +172,39 @@ public class AppUser implements Serializable {
 
 	public void setUpdatedByList(Set<AppUser> updatedByList) {
 		this.updatedByList = updatedByList;
+	}
+
+	
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
+	public Set<Client> getClientList() {
+		return clientList;
+	}
+
+	public void setClientList(Set<Client> clientList) {
+		this.clientList = clientList;
+	}
+
+	public Set<Organization> getOrganizationList() {
+		return organizationList;
+	}
+
+	public void setOrganizationList(Set<Organization> organizationList) {
+		this.organizationList = organizationList;
 	}
 
 	@Override
