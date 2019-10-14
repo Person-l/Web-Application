@@ -12,6 +12,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -36,13 +37,13 @@ public class AppUser implements Serializable {
 	private String Id;
 	
 	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "client", foreignKey = @ForeignKey(name = "FK_AppUser_client"))
+	@JoinColumn(name = "client", foreignKey = @ForeignKey(name = "FK_AppUser_Client"))
 	private Client client;
 	
 	@ManyToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "organization", foreignKey = @ForeignKey(name = "FK_AppUser_organization"))
+	@JoinColumn(name = "organization", foreignKey = @ForeignKey(name = "FK_AppUser_Organizations"))
 	private Organization organization;
-
+	
 	@Type(type = "yes_no")
 	@Column(name = "active", nullable = false, length = 1)
 	private Boolean active = true;
@@ -76,12 +77,8 @@ public class AppUser implements Serializable {
 	@OneToMany(mappedBy = "updatedBy")
 	private Set<AppUser> updatedByList = new HashSet<AppUser>();
 	
-	@OneToMany(mappedBy = "client")
-	private Set<Client> clientList = new HashSet<Client>();
 	
-	@OneToMany(mappedBy = "organization")
-	private Set<Organization> organizationList = new HashSet<Organization>();
-
+	
 	public AppUser() {
 
 	}
@@ -183,28 +180,13 @@ public class AppUser implements Serializable {
 		this.client = client;
 	}
 
+	
 	public Organization getOrganization() {
 		return organization;
 	}
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
-	}
-
-	public Set<Client> getClientList() {
-		return clientList;
-	}
-
-	public void setClientList(Set<Client> clientList) {
-		this.clientList = clientList;
-	}
-
-	public Set<Organization> getOrganizationList() {
-		return organizationList;
-	}
-
-	public void setOrganizationList(Set<Organization> organizationList) {
-		this.organizationList = organizationList;
 	}
 
 	@Override

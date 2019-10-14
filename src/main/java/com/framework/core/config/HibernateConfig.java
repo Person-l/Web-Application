@@ -14,7 +14,10 @@ public class HibernateConfig {
 		try {
 			// Create the SessionFactory from hibernate.cfg.xm
 			return new Configuration().configure().
-					addAnnotatedClass(Client.class).addAnnotatedClass(Organization.class).addAnnotatedClass(AppUser.class).buildSessionFactory();
+					addAnnotatedClass(Client.class).
+					addAnnotatedClass(Organization.class).
+					addAnnotatedClass(AppUser.class).
+					buildSessionFactory();
 		} catch (Throwable ex) {
 			System.err.println("Initial SessionFactory creation failed." + ex);
 			throw new ExceptionInInitializerError(ex);

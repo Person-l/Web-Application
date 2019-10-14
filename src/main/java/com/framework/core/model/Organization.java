@@ -24,7 +24,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "Organization")
-public class Organization implements Serializable{
+public class Organization implements Serializable {
 
 	private static final long serialVersionUID = 3666516236791355396L;
 	@Id
@@ -32,7 +32,7 @@ public class Organization implements Serializable{
 	@GeneratedValue(generator = "system-uuid")
 	@Column(name = "organizationId", length = 32)
 	private String Id;
-	
+
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "client", foreignKey = @ForeignKey(name = "FK_Organization_client"))
 	private Client client;
@@ -54,7 +54,7 @@ public class Organization implements Serializable{
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "updatedBy", foreignKey = @ForeignKey(name = "FK_Organization_updatedBy"))
 	private AppUser updatedBy;
-	
+
 	@Column(name = "value", nullable = false, length = 60)
 	private String value;
 
@@ -64,19 +64,16 @@ public class Organization implements Serializable{
 	@Type(type = "yes_no")
 	@Column(name = "ready", nullable = false, length = 1)
 	private Boolean ready = false;
-	
+
 	@Type(type = "yes_no")
 	@Column(name = "summaryLevel", nullable = false, length = 1)
 	private Boolean summaryLevel = false;
-	
+
 	@OneToMany(mappedBy = "createdBy")
 	private Set<AppUser> createdByList = new HashSet<AppUser>();
 
 	@OneToMany(mappedBy = "updatedBy")
 	private Set<AppUser> updatedByList = new HashSet<AppUser>();
-	
-	@OneToMany(mappedBy = "client")
-	private Set<Client> clientList = new HashSet<Client>();
 
 	public Organization() {
 
@@ -185,14 +182,4 @@ public class Organization implements Serializable{
 	public void setUpdatedByList(Set<AppUser> updatedByList) {
 		this.updatedByList = updatedByList;
 	}
-
-	public Set<Client> getClientList() {
-		return clientList;
-	}
-
-	public void setClientList(Set<Client> clientList) {
-		this.clientList = clientList;
-	}
-	
-	
 }
